@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  on-off-commander: 
+    container_name: ${SERVER_CONTAINER_NAME}
+    build: ./service
+    env_file:
+      SERVER_HOST: 0.0.0.0
+      SERVER_PORT: 11111
+      LOG_LEVEL: info
+      TITLE: TurnOff Commander
+      VERSION: 0.1
+      DOCS_ENABLED: true
+      DOCS_URL: api/docs
+      ROOT_LOGIN: root
+      ROOT_PASSWORD: password
+      POSTGRES_HOST: 0.0.0.0
+      POSTGRES_PORT: 5432
+      POSTGRES_DATABASE: database
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+    ports:
+      - 80:11111
+    depends_on:
+      - database
+    networks:
+      - database-network
+
+  database:
+    container_name: ${POSTGRES_CONTAINER_NAME}
+    image: postgres:15
+    env_file:
+      POSTGRES_HOST: 0.0.0.0
+      POSTGRES_PORT: 5432
+      POSTGRES_DATABASE: database
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+    networks:
+      - database-network
+    volumes:
+      - postgres:/data/postgres
+
+networks:
+  database-network:
+    name: database-network
+    driver: bridge
+
+volumes:
+    postgres:
