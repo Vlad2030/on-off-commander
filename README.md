@@ -3,6 +3,13 @@
 # On/Off Commander
 A turn Off/On computers service software for simplify and automate routine.
 
+# How it works?
+...
+
+# Supported platforms
+ - Windows
+ - Linux (.deb)
+
 # Quick start
 ...
 
