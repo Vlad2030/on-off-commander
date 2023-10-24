@@ -24,7 +24,7 @@ ENV POSTGRES_PASSWORD password
 ENV PYTHONDONTWRITEBYTECODE 1
 RUN pip install -r requirements.txt
 
-EXPOSE $SERVER_PORT
+EXPOSE $SERVICE_PORT $SERVER_PORT
 CMD [ "bash", "start.sh" ]
 
 
