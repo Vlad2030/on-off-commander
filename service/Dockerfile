@@ -1,9 +1,11 @@
-FROM python:3.11-slim
-COPY . /backend/
-WORKDIR /backend
+FROM python:3.11-slim as backend
+COPY backend/ /backend/
+WORKDIR /backend/
 
+ENV SERVICE_HOST 0.0.0.0
+ENV SERVICE_PORT 11111
 ENV SERVER_HOST 0.0.0.0
-ENV SERVER_PORT 11111
+ENV SERVER_PORT 11112
 ENV LOG_LEVEL info
 
 ENV TITLE TurnOff Commander
@@ -24,3 +26,14 @@ RUN pip install -r requirements.txt
 
 EXPOSE $SERVER_PORT
 CMD [ "bash", "start.sh" ]
+
+
+FROM node:lts-alpine as frontend
+
+COPY frontend/ /frontend/
+WORKDIR /frontend/
+
+RUN npm install @vue/cli@5.0.8 -g
+RUN npm install
+
+CMD ["npm", "run", "serve"]
